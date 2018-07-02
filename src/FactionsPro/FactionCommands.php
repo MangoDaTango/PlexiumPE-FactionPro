@@ -43,7 +43,7 @@ class FactionCommands {
             $playerName = $sender->getPlayer()->getName();
             if (strtolower($command->getName()) === "f") {
                 if (empty($args)) {
-                    $sender->sendMessage($this->plugin->formatMessage("Please use /f help for a list of commands"));
+                    $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bPlease use /f help for a list of commands§c."));
                     return true;
                 }
 
@@ -51,7 +51,7 @@ class FactionCommands {
 
                     if ($args[0] == "war") {
                         if (!isset($args[1])) {
-                            $sender->sendMessage($this->plugin->formatMessage("Usage: /f war <faction name:tp>"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §cUsage: §b/f war <faction name:tp>"));
                             return true;
                         }
                         if (strtolower($args[1]) == "tp") {
@@ -74,23 +74,23 @@ class FactionCommands {
                             return true;
                         }
                         if (!($this->alphanum($args[1]))) {
-                            $sender->sendMessage($this->plugin->formatMessage("You may only use letters and numbers"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bYou may only use letters and numbers§c."));
                             return true;
                         }
                         if (!$this->plugin->factionExists($args[1])) {
-                            $sender->sendMessage($this->plugin->formatMessage("Faction does not exist"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bFaction does not exist§c."));
                             return true;
                         }
                         if (!$this->plugin->isInFaction($sender->getName())) {
-                            $sender->sendMessage($this->plugin->formatMessage("You must be in a faction to do this"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bYou must be in a faction to do this§c."));
                             return true;
                         }
                         if (!$this->plugin->isLeader($playerName)) {
-                            $sender->sendMessage($this->plugin->formatMessage("Only your faction leader may start wars"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bOnly your faction leader may start wars§c."));
                             return true;
                         }
                         if (!$this->plugin->areEnemies($this->plugin->getPlayerFaction($playerName), $args[1])) {
-                            $sender->sendMessage($this->plugin->formatMessage("Your faction is not an enemy of $args[1]"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bYour faction is not an enemy of $args[1]"));
                             return true;
                         } else {
                             $factionName = $args[1];
@@ -101,7 +101,7 @@ class FactionCommands {
                                         $task = new FactionWar($this->plugin, $r);
                                         $handler = $this->plugin->getServer()->getScheduler()->scheduleDelayedTask($task, 20 * 60 * 2);
                                         $task->setHandler($handler);
-                                        $p->sendMessage("The war against $factionName and $sFaction has started!");
+                                        $p->sendMessage("§0[§dWAR§0] §BThe war against §c$factionName §band §c$sFaction §bhas started§c!");
                                         if ($this->plugin->getPlayerFaction($p->getName()) == $sFaction) {
                                             $this->plugin->war_players[$sFaction][] = $p->getName();
                                         }
@@ -118,13 +118,13 @@ class FactionCommands {
                             foreach ($this->plugin->getServer()->getOnlinePlayers() as $p) {
                                 if ($this->plugin->getPlayerFaction($p->getName()) == $factionName) {
                                     if ($this->plugin->getLeader($factionName) == $p->getName()) {
-                                        $p->sendMessage("$sFaction wants to start a war, '/f war $sFaction' to start!");
-                                        $sender->sendMessage("Faction war requested");
+                                        $p->sendMessage("§9[§dWAR§0] §c$sFaction §bwants to start a war§c, '§b/f war §c$sFaction' §bto start§c!");
+                                        $sender->sendMessage("§9[§dWAR§9] §bFaction war requested");
                                         return true;
                                     }
                                 }
                             }
-                            $sender->sendMessage("Faction leader is not online.");
+                            $sender->sendMessage("§9[§eMangosNetwork§0] §bFaction leader is not online§c.");
                             return true;
                         }
                     }
@@ -133,27 +133,27 @@ class FactionCommands {
 
                     if ($args[0] == "create") {
                         if (!isset($args[1])) {
-                            $sender->sendMessage($this->plugin->formatMessage("Usage: /f create <faction name>"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §cUsage: §b/f create <§cfaction name§b>"));
                             return true;
                         }
                         if (!($this->alphanum($args[1]))) {
-                            $sender->sendMessage($this->plugin->formatMessage("You may only use letters and numbers"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bYou may only use letters and numbers§c."));
                             return true;
                         }
                         if ($this->plugin->isNameBanned($args[1])) {
-                            $sender->sendMessage($this->plugin->formatMessage("This name is not allowed"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §cThis name is not allowed"));
                             return true;
                         }
                         if ($this->plugin->factionExists($args[1])) {
-                            $sender->sendMessage($this->plugin->formatMessage("The Faction already exists"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bThe Faction already exists§c!"));
                             return true;
                         }
                         if (strlen($args[1]) > $this->plugin->prefs->get("MaxFactionNameLength")) {
-                            $sender->sendMessage($this->plugin->formatMessage("That name is too long, please try again"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bThat name is too long§c, §bplease try again§c."));
                             return true;
                         }
                         if ($this->plugin->isInFaction($sender->getName())) {
-                            $sender->sendMessage($this->plugin->formatMessage("You must leave the faction first"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bYou must leave the faction first§c."));
                             return true;
                         } else {
                             $factionName = $args[1];
@@ -166,7 +166,7 @@ class FactionCommands {
                             $this->plugin->updateAllies($factionName);
                             $this->plugin->setFactionPower($factionName, $this->plugin->prefs->get("TheDefaultPowerEveryFactionStartsWith"));
                             $this->plugin->updateTag($sender->getName());
-                            $sender->sendMessage($this->plugin->formatMessage("Faction created", true));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §aFaction has been successfully created§c.", true));
                         }
                     }
 
@@ -174,31 +174,31 @@ class FactionCommands {
 
                     if ($args[0] == "invite") {
                         if (!isset($args[1])) {
-                            $sender->sendMessage($this->plugin->formatMessage("Usage: /f invite <player>"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §cUsage: §f/f invite <§cplayer§f>"));
                             return true;
                         }
                         if ($this->plugin->isFactionFull($this->plugin->getPlayerFaction($playerName))) {
-                            $sender->sendMessage($this->plugin->formatMessage("Faction is full, please kick players to make room"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bFaction is full§c, §bplease kick players to make room§c."));
                             return true;
                         }
                         $invited = $this->plugin->getServer()->getPlayerExact($args[1]);
                         if (!($invited instanceof Player)) {
-                            $sender->sendMessage($this->plugin->formatMessage("Player not online"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §cPlayer is not online!"));
                             return true;
                         }
                         if ($this->plugin->isInFaction($invited->getName()) == true) {
-                            $sender->sendMessage($this->plugin->formatMessage("Player is currently in a faction"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bPlayer is currently in a faction§c."));
                             return true;
                         }
                         if ($this->plugin->prefs->get("OnlyLeadersAndOfficersCanInvite")) {
                             if (!($this->plugin->isOfficer($playerName) || $this->plugin->isLeader($playerName))) {
-                                $sender->sendMessage($this->plugin->formatMessage("Only your faction leader/officers can invite"));
+                                $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §bOnly your faction leader §cor §bofficers can invite§c."));
                                 return true;
                             }
                         }
                         if ($invited->getName() == $playerName) {
 
-                            $sender->sendMessage($this->plugin->formatMessage("You can't invite yourself to your own faction"));
+                            $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] §cYou can't invite yourself to your own faction."));
                             return true;
                         }
 
@@ -212,8 +212,8 @@ class FactionCommands {
                         $stmt->bindValue(":invitedby", $sender->getName());
                         $stmt->bindValue(":timestamp", time());
                         $result = $stmt->execute();
-                        $sender->sendMessage($this->plugin->formatMessage("$invitedName has been invited", true));
-                        $invited->sendMessage($this->plugin->formatMessage("You have been invited to $factionName. Type '/f accept' or '/f deny' into chat to accept or deny!", true));
+                        $sender->sendMessage($this->plugin->formatMessage("§9[§eMangosNetwork§0] $invitedName §ahas been invited§c.", true));
+                        $invited->sendMessage($this->plugin->formatMessage("§0[§5Invite§0] §bYou have been invited to §c$factionName. §bType §c'§b/f accept§c' §cor '§b/f deny§c' into chat to accept or deny§c!", true));
                     }
 
                     /////////////////////////////// LEADER ///////////////////////////////
