@@ -3,7 +3,7 @@ author: StrafelessPvP
 description: PlexiumPE-FactionPro'
 version: 1.0
 main: FactionsPro\FactionMain
-api: 3.0.0-ALPHA12, 4.0.0
+api: 3.0.0-ALPHA12, 3.0.0, 4.0.0, 4.0.0-ALPHA1
 softdepend:
     - PureChat
     - AntiSpamPro
